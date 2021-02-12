@@ -66,14 +66,12 @@ class Beaker::VagrantLibvirt < Beaker::Vagrant
     #will provide. To work around this, by deleting the default route whenever
     #the vagrant libvirt vm comes up, it will correct itself and then the ip
     #masquerade will work as intended.
-    unless provisioner_config.nil?
-      unless provisioner_config.include? "ip route del default"
-        shell_provisioner_string += "    v.vm.provision 'shell', :inline => 'ip route del default', :run => 'always'\n"
-      else
-        shell_provisioner_string = "    v.vm.provision 'shell', :path => '#{provisioner_config['path']}'\n"
-      end
-    else
+    if provisioner_config.nil?
       shell_provisioner_string = "    v.vm.provision 'shell', :inline => 'ip route del default', :run => 'always'\n"
+    else
+      if not provisioner_config.include? 'ip route del default'
+        shell_provisioner_string += "    v.vm.provision 'shell', :inline => 'ip route del default', :run => 'always'\n"
+      end
     end
   end
 end
