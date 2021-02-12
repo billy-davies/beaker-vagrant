@@ -70,7 +70,7 @@ class Beaker::VagrantLibvirt < Beaker::Vagrant
       shell_provisioner_string = "    v.vm.provision 'shell', :inline => 'ip route del default', :run => 'always'\n"
     else
       if not provisioner_config.include? 'ip route del default'
-        shell_provisioner_string += "    v.vm.provision 'shell', :inline => 'ip route del default', :run => 'always'\n"
+        shell_provisioner_string = "    v.vm.provision 'shell', :inline => 'ip route del default', :run => 'always'\n"
       end
     end
   end
